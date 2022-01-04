@@ -1,4 +1,4 @@
 #!/bin/bash
 
 /config-parse
-/kubectl $@
+/kubectl --kubeconfig=/config $@
