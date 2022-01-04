@@ -15,7 +15,7 @@ func GetEnvironment(key, defaultValue string) string {
 }
 
 func ParseTemplate(certificate_authority_data, server, client_certificate_data, client_key_data string) {
-	t, err := template.ParseFiles("./config_gotemplate")
+	t, err := template.ParseFiles("/config_gotemplate")
 	if err != nil {
 		log.Print(err)
 	}
