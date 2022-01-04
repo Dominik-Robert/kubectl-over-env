@@ -14,17 +14,22 @@ func GetEnvironment(key, defaultValue string) string {
 	return val
 }
 
-func ParseTemplate(certificate_authority_data, server, client_certificate_data, client_key_data string) {
+func ParseTemplate(certificate_authority_data, server, client_certificate_data, client_key_data string) bool {
 	t, err := template.ParseFiles("/config_gotemplate")
 	if err != nil {
 		log.Print(err)
+		return false
 	}
+
+	log.Println("Template loaded")
 
 	f, err := os.Create("config")
 	if err != nil {
 		log.Println("create file: ", err)
-		return
+		return false
 	}
+
+	log.Println("File config created")
 
 	err = t.Execute(f, map[string]string{
 		"certificate_authority_data": certificate_authority_data,
@@ -35,11 +40,12 @@ func ParseTemplate(certificate_authority_data, server, client_certificate_data, 
 
 	if err != nil {
 		log.Print("execute: ", err)
-		return
+		return false
 	}
+	log.Println("Template executed successfully")
 
 	f.Close()
-
+	return true
 }
 
 func main() {
@@ -48,5 +54,13 @@ func main() {
 	client_certificate_data := GetEnvironment("CLIENT_CERTIFICATE_DATA", "")
 	client_key_data := GetEnvironment("CLIENT_KEY_DATA", "")
 
-	ParseTemplate(certificate_authority_data, server, client_certificate_data, client_key_data)
+	successfull := ParseTemplate(certificate_authority_data, server, client_certificate_data, client_key_data)
+
+	if successfull {
+		log.Println("All successfull")
+		os.Exit(0)
+	} else {
+		log.Println("Something went wrong")
+		os.Exit(1)
+	}
 }
