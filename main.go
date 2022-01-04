@@ -23,7 +23,7 @@ func ParseTemplate(certificate_authority_data, server, client_certificate_data, 
 
 	log.Println("Template loaded")
 
-	f, err := os.Create("config")
+	f, err := os.Create("/config")
 	if err != nil {
 		log.Println("create file: ", err)
 		return false
