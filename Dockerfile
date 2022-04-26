@@ -6,7 +6,7 @@ RUN go mod download \
 
 FROM ubuntu AS downloader
 WORKDIR /root/
-ENV KUBECTL_VERSION=v1.22.3
+ENV KUBECTL_VERSION=v1.22.4
 RUN apt update && apt install -y curl \
   && curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl \
   && chmod +x ./kubectl
